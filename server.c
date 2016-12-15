@@ -2,8 +2,8 @@
 #include "logic.h"
 #include "connection_handler.h"
 #include <stdio.h>
-
-
+#include "shared_context.h"
+#include <unistd.h>
 
 
 int main(int argc, char *argv[]) {
@@ -17,6 +17,7 @@ int main(int argc, char *argv[]) {
 
     // Listen for inturrupt, and send proper signals to other threads
     while(1) {
-        printf("Waiting for something to happen");
+        sleep(10);
+        printf("Server Still Alive");
     }
 }
