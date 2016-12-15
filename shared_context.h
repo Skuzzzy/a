@@ -17,30 +17,21 @@ struct entry {
     char* data;
 };
 
-void aquire(struct requests* req) {
-    pthread_mutex_lock(&req->req_q_mutex);
-}
+void initialize(struct requests* reqs);
 
-bool has_requests(struct requests* req) {
-    return !(SLIST_EMPTY(&req->head));
-}
+void lock(struct requests* reqs);
 
-void put_request(struct requests* reqs, char* data) {
-    struct entry* req = malloc(sizeof(struct entry));
-    req->data = strdup(data); // Assume that data is a string
-    SLIST_INSERT_HEAD(&reqs->head, req, entries);
-}
+void unlock(struct requests* reqs);
 
-char* get_request(struct requests* reqs) {
-    struct entry* req = SLIST_FIRST(&reqs->head);
-    SLIST_REMOVE_HEAD(&reqs->head, entries);
-    char * dat = req->data;
-    free(req);
-    return dat;
-}
+bool has_requests(struct requests* req);
 
-void release(struct requests* reqs) {
-    pthread_mutex_unlock(&reqs->req_q_mutex);
-}
+void put_request(struct requests* reqs, char* data);
+
+char* get_request(struct requests* reqs);
+
+
+// TODO FIXME, make a nonglobal shared context,
+// right now I am just lazy, and this works sufficiently
+struct requests gcontext;
 
 #endif

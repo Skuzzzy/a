@@ -1,3 +1,3 @@
 
 all:
-	gcc -pthread server.c logic.c connection_handler.c
+	gcc -g -pthread server.c logic.c connection_handler.c shared_context.c

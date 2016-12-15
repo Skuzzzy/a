@@ -5,10 +5,14 @@
 #include "shared_context.h"
 #include <unistd.h>
 
+void initialize_global_context(void) {
+    initialize(&gcontext);
+}
 
 int main(int argc, char *argv[]) {
 
 
+    initialize_global_context();
     // Initialize connection handler with shared resource
     initialize_handler_thread();
 
