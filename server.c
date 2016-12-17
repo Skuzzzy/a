@@ -5,19 +5,21 @@
 #include "shared_context.h"
 #include <unistd.h>
 
-void initialize_global_context(void) {
-    initialize(&gcontext);
+struct requests* initialize_global_context(void) {
+    struct requests* req_context = malloc(sizeof(struct requests));
+    initialize(req_context);
+    return req_context;
 }
 
 int main(int argc, char *argv[]) {
 
 
-    initialize_global_context();
+    struct requests* req_context = initialize_global_context();
     // Initialize connection handler with shared resource
-    initialize_handler_thread();
+    initialize_handler_thread(req_context);
 
     // Begin server logic thread with shared resource
-    initialize_logic_thread();
+    initialize_logic_thread(req_context);
 
     // Listen for inturrupt, and send proper signals to other threads
     while(1) {

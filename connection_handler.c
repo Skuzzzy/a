@@ -4,10 +4,11 @@
 #include <unistd.h>
 #include "shared_context.h"
 
-void initialize_handler_thread(void) {
+void initialize_handler_thread(struct requests* request_context) {
     // Grab a TCP port and prepare to accept connections on it.
     pthread_t handler_thread;
-    int res = pthread_create(&handler_thread, NULL, handler_loop, (void*)NULL);
+    int res = pthread_create(&handler_thread, NULL,
+                             handler_loop, (void*)request_context);
     if(res != 0) {
         perror("Failed to initialize connection handler");
         exit(EXIT_FAILURE);
@@ -15,16 +16,19 @@ void initialize_handler_thread(void) {
 }
 
 void* handler_loop(void* param) {
+    struct requests* gcontext = (struct requests*) param;
+
+
     while(1) {
         /*printf("connection handler\n");*/
-        lock(&gcontext);
-        if(!has_requests(&gcontext)) {
+        lock(gcontext);
+        if(!has_requests(gcontext)) {
             /*printf("no requests\n");*/
-            put_request(&gcontext, "one");
-            put_request(&gcontext, "two");
-            put_request(&gcontext, "three");
+            put_request(gcontext, "one");
+            put_request(gcontext, "two");
+            put_request(gcontext, "three");
         }
-        unlock(&gcontext);
+        unlock(gcontext);
         // SELECT on all available sockets
         // IF our main socket, accept the connection and add it to the connection list
         // IF any other socket, it is a standard socket, and use protocol
