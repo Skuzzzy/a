@@ -8,7 +8,7 @@
 void initialize_logic_thread(struct requests* request_context) {
     pthread_t logic_thread;
     int res = pthread_create(&logic_thread, NULL,
-                             logic_loop, (void*)request_context);
+            logic_loop, (void*)request_context);
     if(res != 0) {
         perror("Failed to initialize logic thread");
         exit(EXIT_FAILURE);
@@ -21,9 +21,14 @@ void * logic_loop(void * param) {
     while(1) {
         lock(gcontext);
         while(has_requests(gcontext)) {
-            char * r = get_request(gcontext);
-            printf("%s\n", r);
-            free(r);
+            struct request * r = get_request(gcontext);
+            if(r->request_type == R_SAY) {
+                printf("%s\n", r->data.say_req.message);
+            }
+            else {
+                printf("Unknown Request Type %d\n", r->request_type);
+            }
+            dispose_request(r);
         }
         /*printf("Logic Thread\n");*/
         unlock(gcontext);

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "shared_context.h"
+#include "requests.h"
 
 void initialize_handler_thread(struct requests* request_context) {
     // Grab a TCP port and prepare to accept connections on it.
@@ -24,9 +25,9 @@ void* handler_loop(void* param) {
         lock(gcontext);
         if(!has_requests(gcontext)) {
             /*printf("no requests\n");*/
-            put_request(gcontext, "one");
-            put_request(gcontext, "two");
-            put_request(gcontext, "three");
+            put_request(gcontext, make_say_request("one"));
+            put_request(gcontext, make_say_request("two"));
+            put_request(gcontext, make_say_request("three"));
         }
         unlock(gcontext);
         // SELECT on all available sockets

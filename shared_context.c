@@ -21,16 +21,16 @@ bool has_requests(struct requests* req) {
     return !(SLIST_EMPTY(&req->head));
 }
 
-void put_request(struct requests* reqs, char* data) {
+void put_request(struct requests* reqs, struct request* data) {
     struct entry* req = malloc(sizeof(struct entry));
-    req->data = strdup(data); // Assume that data is a string
+    req->data = data;
     SLIST_INSERT_HEAD(&reqs->head, req, entries);
 }
 
-char* get_request(struct requests* reqs) {
+struct request* get_request(struct requests* reqs) {
     struct entry* req = SLIST_FIRST(&reqs->head);
     SLIST_REMOVE_HEAD(&reqs->head, entries);
-    char * dat = req->data;
+    struct request* dat = req->data;
     free(req);
     return dat;
 }
