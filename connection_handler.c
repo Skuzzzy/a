@@ -25,9 +25,10 @@ void* handler_loop(void* param) {
         lock(gcontext);
         if(!has_requests(gcontext)) {
             /*printf("no requests\n");*/
-            put_request(gcontext, make_say_request("one"));
-            put_request(gcontext, make_say_request("two"));
-            put_request(gcontext, make_say_request("three"));
+            put_request(gcontext, make_say_request(0, "one"));
+            put_request(gcontext, make_say_request(0, "two"));
+            put_request(gcontext, make_say_request(0, "three"));
+            put_request(gcontext, make_create_entity_request(480));
         }
         unlock(gcontext);
         // SELECT on all available sockets
