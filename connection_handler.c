@@ -91,7 +91,7 @@ void* handler_loop(void* param) {
                 exit(EXIT_FAILURE);
             }
             printf("New connection %s:%d\n", inet_ntoa(address.sin_addr), ntohs(address.sin_port));
-            for(int inx; inx < client_len; inx++) {
+            for(int inx = 0; inx < client_len; inx++) {
                 // Todo expand client socket buffer if need be
                 if(clients[inx] == INVALID_SOCK) {
                     printf("Placed client in %d\n", inx);
