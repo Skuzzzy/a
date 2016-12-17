@@ -112,6 +112,13 @@ void* handler_loop(void* param) {
                         close(sock_fd);
                         clients[inx] = INVALID_SOCK;
                     }
+                    else {
+                        printf("Received %d bytes,\n", amount_read);
+                        for(int j = 0; j < amount_read; j++) {
+                            printf("%d ", buffer[j]);
+                        }
+                        printf("\n");
+                    }
                     activity--;
                 }
                 inx++;
