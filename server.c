@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
 
     // Listen for inturrupt, and send proper signals to other threads
     while(1) {
+        /*printf("Server Still Alive\n");*/
         sleep(10);
-        printf("Server Still Alive");
     }
 }
