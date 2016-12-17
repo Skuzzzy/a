@@ -13,7 +13,7 @@
 
 #define INVALID_SOCK 0
 #define client_len 32 // TODO FIXME
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 1026
 
 void initialize_handler_thread(struct requests* request_context) {
     // Grab a TCP port and prepare to accept connections on it.
